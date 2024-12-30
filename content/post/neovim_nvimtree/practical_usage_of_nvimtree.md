@@ -8,6 +8,12 @@ license: null
 hidden: false
 comments: true
 draft: false
+tags:
+  - nvim-tree
+  - neovim plugin
+categories:
+  - Linux
+  - Neovim
 ---
 Here is a summary of commonly used commands. There are still many features that haven't been convered yet. 
 I will continue to add them as I use them in the future.
@@ -64,6 +70,7 @@ I'm not very familiar with Git-related features currently.
  |Ctrl-K     | Show information of the file|
  |g?        | Help|
  |R         | Refresh|
+
 
 
 

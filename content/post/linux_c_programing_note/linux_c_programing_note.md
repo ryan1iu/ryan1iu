@@ -8,6 +8,11 @@ license: null
 hidden: false
 comments: true
 draft: false
+tags:
+  - C
+categories:
+  - Notes
+  - Programing Language
 ---
 # C编程基础
 ## 基本注意事项
@@ -67,6 +72,10 @@ draft: false
 ![img](https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20241230211112.png?imageSlim)
 
 ## 标准I/O
+区分标准I/O与系统调用I/O    
+- 格式化输入输出scanf printf
+- 字符输入输出 getchat putchar
+- 字符串输入输出 gets puts
 
 ## 流程控制
 
@@ -77,6 +86,7 @@ draft: false
 ## 函数
 
 ## 构造类型
+
 
 
 

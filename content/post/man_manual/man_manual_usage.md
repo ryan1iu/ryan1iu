@@ -8,6 +8,10 @@ license: null
 hidden: false
 comments: true
 draft: false
+tags:
+  - man
+categories:
+  - Linux
 ---
 # SYNOPSIS
 man 手册分为如下部分
@@ -54,6 +58,7 @@ n\N 上一个\下一个匹配项
 ```
 
 # 为手册添加条目
+
 
 
 
