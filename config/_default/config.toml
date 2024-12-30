@@ -1,5 +1,5 @@
 # Change baseurl before deploy
-baseurl = "https://ryan1iu.github.io/ryan1iu/"
+baseurl = "https://liurun.life"
 languageCode = "en-us"
 title = "孤岛"
 
