@@ -23,6 +23,7 @@ categories:
 4. return 0
 5. 多用空格和空行
 6. 大段函数注释可以通过#if 0  ---   #endif 进行注释
+7. 没有单位的数值在计算机中是没有意义的
 
 `算法`： 解决问题的方法。（流程图、NS图、有限状态机FSM）  
 `程序`： 用某种语言实现算法   
@@ -77,15 +78,129 @@ categories:
 - 字符输入输出 getchat putchar
 - 字符串输入输出 gets puts
 
+### 格式化输入输出
+```c
+int printf(const char *restrict format, ...);
+int scanf(const char *restrict format, ...);
+```
+format格式：
+```
+% [修饰符] 格式字符
+```
+修饰符：    
+![modify](https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20250101105411.png?imageSlim)
+
+格式字符：  
+![format](https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20250101084954.png?imageSlim)
+
+scanf使用注意事项： 
+1. 在scanf中使用%s接受字符串是一个非常危险的操作，可能导致内存越界，最好使用专门的字符串接受函数
+2. 如果在循环中使用scanf函数，一定要对其返回值进行校验。例如
+```c
+void func(void) {
+    int i;
+    while(1) {
+        scanf("%d", &i);
+        printf("%d\n", i);
+    }
+}
+```
+如果输出的内容与%d不匹配，那么程序就会进入死循环
+3. 抑制符的使用
+```c
+/*
+* 如果连续调用两次scanf函数从终端读取内容，那么后一个scanf函数不能接收到正确的结果
+*/
+```
+
+### 缓冲区刷新机制
+C语言中，当使用标准I/O时，会有一个缓冲区来暂时存储输入输出的内容来提高效率。
+行缓冲：在遇到\n时或者缓冲区已满时进行输出，终端使用行缓冲模式
+全缓冲：缓冲区满时进行输出，文件使用全缓冲模式
+标准错误流：标准错误流不缓冲
+
+
 ## 流程控制
 
 ## 数组
 
 ## 指针
 
+## 构造类型
+### struct内存对齐
+1. 成员的起始地址必须是对齐值的整数倍，对齐值通常是数据类型的大小
+2. 结构体的大小必须是最大对齐值的整数倍，否则需要在结构体末尾进行填充
+3. 成员的排列顺序影响结构体的大小
+
+### union的应用场景
+1. 节省内存，当多个数据类型`不会`同时使用时，可以使用Union节省内存
+2. 类型转换，通过Union可以实现相同位模式下的不同数据类型的解释
+```c
+union convert {
+	int i;
+	unsigned int j;
+};
+
+int main()
+{
+	union convert a;
+	a.i = 0xffffffff;
+	/**
+     * a.i = -1
+     * a.j = 4294967295
+     */
+	printf("a.i = %d\na.j = %u\n", a.i, a.j);
+
+	return 0;
+}
+```
+3. 硬件编程，在嵌入式开发中Union可以用来访问寄存器的不同部分
+```c
+union Register {
+	unsigned int i;
+	struct {
+		unsigned char byte1;
+		unsigned char byte2;
+		unsigned char byte3;
+		unsigned char byte4;
+	} bytes;
+};
+
+int main()
+{
+	union Register r;
+	r.i = 0x12345678;
+	/*
+     * byte1 = 78
+     * byte2 = 56
+     * byte3 = 34
+     * byte4 = 12
+     * 说明当前机器采用小端模式
+     * */
+	printf("byte1 = %x\nbyte2 = %x\nbyte3 = %x\nbyte4 = %x\n",
+	       r.bytes.byte1, r.bytes.byte2, r.bytes.byte3, r.bytes.byte4);
+
+	return 0;
+}
+```
 ## 函数
 
-## 构造类型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
