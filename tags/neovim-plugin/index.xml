@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Neovim Plugin on 孤岛</title><link>https://liurun.life/tags/neovim-plugin/</link><description>Recent content in Neovim Plugin on 孤岛</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 27 Dec 2024 02:07:50 +0000</lastBuildDate><atom:link href="https://liurun.life/tags/neovim-plugin/index.xml" rel="self" type="application/rss+xml"/><item><title>Practical usage of nvim-tree in Neovim</title><link>https://liurun.life/p/practical-usage-of-nvim-tree-in-neovim/</link><pubDate>Fri, 27 Dec 2024 02:07:50 +0000</pubDate><guid>https://liurun.life/p/practical-usage-of-nvim-tree-in-neovim/</guid><description>&lt;p>Here is a summary of commonly used commands. There are still many features that haven&amp;rsquo;t been convered yet.
+I will continue to add them as I use them in the future.&lt;/p>
+&lt;h1 id="basic-features">Basic Features
+&lt;/h1>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Shortcuts&lt;/th>
+&lt;th>Function&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>a&lt;/td>
+&lt;td>Create File Or Directory&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>d&lt;/td>
+&lt;td>Delete&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>c&lt;/td>
+&lt;td>Copy&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>x&lt;/td>
+&lt;td>Cut&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>p&lt;/td>
+&lt;td>Paste&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>o&lt;/td>
+&lt;td>Open File in current window Or Expand a Directory&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>q&lt;/td>
+&lt;td>Close&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>r&lt;/td>
+&lt;td>Rename&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>e&lt;/td>
+&lt;td>Rename: Basename&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>y&lt;/td>
+&lt;td>Copy Filename&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Y&lt;/td>
+&lt;td>Copy Relative Path&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>gy&lt;/td>
+&lt;td>Copy Absolute Path&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="quick-navigation-in-the-file-tree">Quick navigation in the file tree
+&lt;/h1>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Shortcuts&lt;/th>
+&lt;th>Function&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&amp;lt;CTRL-]&amp;gt;&lt;/td>
+&lt;td>Change current directory&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>BackSpace&lt;/td>
+&lt;td>Close floder of current file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>-&lt;/td>
+&lt;td>Set the working directory to the parent directory of current working directory&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>P&lt;/td>
+&lt;td>Move to the parent directory of current file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;gt;&lt;/td>
+&lt;td>Move to next sibling&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;lt;&lt;/td>
+&lt;td>Move to previous sibling&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>J&lt;/td>
+&lt;td>Move to the last sibling&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>K&lt;/td>
+&lt;td>Move to the first sibling&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>E&lt;/td>
+&lt;td>Expand All&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>W&lt;/td>
+&lt;td>Collapse All&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="buffer-and-tab-management">Buffer and Tab management
+&lt;/h1>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Shortcuts&lt;/th>
+&lt;th>Function&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Ctrl-T&lt;/td>
+&lt;td>Open file in new tab&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Ctrl-V&lt;/td>
+&lt;td>Open file in current window by vertival split&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Ctrl-X&lt;/td>
+&lt;td>Open file in current window by horizontal split&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Tab&lt;/td>
+&lt;td>Open preview&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="git-integration">Git integration
+&lt;/h1>&lt;p>I&amp;rsquo;m not very familiar with Git-related features currently.&lt;/p>
+&lt;h1 id="other-useful-key-mappings">Other useful key mappings
+&lt;/h1>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Shortcuts&lt;/th>
+&lt;th>Function&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>B&lt;/td>
+&lt;td>Toggle Filter: Display only files currently loaded in the buffer&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Ctrl-K&lt;/td>
+&lt;td>Show information of the file&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>g?&lt;/td>
+&lt;td>Help&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>R&lt;/td>
+&lt;td>Refresh&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table></description></item></channel></rss>
