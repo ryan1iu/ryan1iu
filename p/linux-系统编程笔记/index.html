@@ -1,0 +1,382 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="C编程基础 基本注意事项 头文件包含的重要性 以函数为单位进行程序编写 变量先定义再使用 return 0 多用空格和空行 大段函数注释可以通过#if 0 &mdash; #endif 进行注释 没有单位的数值在计算机中是没有意义的 算法： 解决问题的方法。（流程图、NS图、有限状态机FSM）\n程序： 用某种语言实现算法\n进程： 防止写越界，防止内存泄露\n"><title>Linux 系统编程笔记</title>
+<link rel=canonical href=https://liurun.life/p/linux-%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Linux 系统编程笔记"><meta property='og:description' content="C编程基础 基本注意事项 头文件包含的重要性 以函数为单位进行程序编写 变量先定义再使用 return 0 多用空格和空行 大段函数注释可以通过#if 0 &mdash; #endif 进行注释 没有单位的数值在计算机中是没有意义的 算法： 解决问题的方法。（流程图、NS图、有限状态机FSM）\n程序： 用某种语言实现算法\n进程： 防止写越界，防止内存泄露\n"><meta property='og:url' content='https://liurun.life/p/linux-%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/'><meta property='og:site_name' content='孤岛'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Linux'><meta property='article:tag' content='系统编程'><meta property='article:published_time' content='2024-12-27T04:12:32+00:00'><meta property='article:modified_time' content='2024-12-27T04:12:32+00:00'><meta name=twitter:title content="Linux 系统编程笔记"><meta name=twitter:description content="C编程基础 基本注意事项 头文件包含的重要性 以函数为单位进行程序编写 变量先定义再使用 return 0 多用空格和空行 大段函数注释可以通过#if 0 &mdash; #endif 进行注释 没有单位的数值在计算机中是没有意义的 算法： 解决问题的方法。（流程图、NS图、有限状态机FSM）\n程序： 用某种语言实现算法\n进程： 防止写越界，防止内存泄露\n"><link rel="shortcut icon" href=/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_6e9bb499dd06a381.jpeg width=300 height=294 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>孤岛</a></h1><h2 class=site-description>电子海洋中的二进制孤岛</h2></div></header><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#c编程基础>C编程基础</a><ol><li><a href=#基本注意事项>基本注意事项</a></li><li><a href=#数据类型>数据类型</a><ol><li><a href=#常量与变量>常量与变量</a></li><li><a href=#变量的生命周期与作用范围>变量的生命周期与作用范围</a></li></ol></li><li><a href=#运算符>运算符</a></li><li><a href=#标准io>标准I/O</a><ol><li><a href=#格式化输入输出>格式化输入输出</a></li><li><a href=#缓冲区刷新机制>缓冲区刷新机制</a></li></ol></li><li><a href=#流程控制>流程控制</a></li><li><a href=#数组>数组</a></li><li><a href=#指针>指针</a></li><li><a href=#构造类型>构造类型</a><ol><li><a href=#struct内存对齐>struct内存对齐</a></li><li><a href=#union的应用场景>union的应用场景</a></li></ol></li><li><a href=#函数>函数</a></li></ol></li><li><a href=#unix系统编程>Unix系统编程</a><ol><li><a href=#系统调用io>系统调用IO</a><ol><li><a href=#文件操作符的概念>文件操作符的概念</a></li><li><a href=#文件io操作readwriteopencloselseek>文件IO操作，read，write，open，close，lseek</a></li><li><a href=#open系统调用的flags>open系统调用的flags</a></li><li><a href=#文件io与标准io的区别>文件IO与标准IO的区别</a></li><li><a href=#io的效率问题>IO的效率问题</a></li><li><a href=#文件共享>文件共享</a></li><li><a href=#原子操作>原子操作</a></li><li><a href=#程序中的重定向-dup-dup2>程序中的重定向 dup dup2</a></li><li><a href=#同步-sync-fsync-fdatasync>同步 sync fsync fdatasync</a></li><li><a href=#fcntl-ioctl>fcntl() ioctl()</a></li><li><a href=#devfd-目录>/dev/fd/ 目录</a></li></ol></li><li><a href=#目录和文件>目录和文件</a><ol><li><a href=#获取文件属性>获取文件属性</a></li><li><a href=#文件访问权限>文件访问权限</a></li><li><a href=#umask-防止产生权限过松的文件>umask: 防止产生权限过松的文件</a></li><li><a href=#文件权限的修改>文件权限的修改</a></li><li><a href=#粘住位>粘住位</a></li><li><a href=#文件系统fat和ufs>文件系统：FAT和UFS</a></li><li><a href=#硬链接符号链接>硬链接、符号链接</a></li><li><a href=#utime-更改文件最后读的时间和最后修改的时间>utime: 更改文件最后读的时间和最后修改的时间</a></li><li><a href=#目录的创建和销毁>目录的创建和销毁</a></li><li><a href=#更改当前工作路径>更改当前工作路径</a></li><li><a href=#分析目录读取目录内容>分析目录/读取目录内容</a></li><li><a href=#系统数据文件和信息>系统数据文件和信息</a></li><li><a href=#etcpasswd>/etc/passwd</a></li><li><a href=#etcgroup>/etc/group</a></li><li><a href=#etcshadow>/etc/shadow</a></li><li><a href=#时间戳>时间戳</a></li></ol></li><li><a href=#进程环境>进程环境</a><ol><li><a href=#main函数>main函数</a></li><li><a href=#进程的终止-背诵>进程的终止 背诵</a></li><li><a href=#命令行参数的分析>命令行参数的分析</a></li><li><a href=#环境变量>环境变量</a></li><li><a href=#c程序的存储空间布局>C程序的存储空间布局</a></li><li><a href=#库>库</a></li><li><a href=#函数跳转>函数跳转</a></li><li><a href=#资源的获取以及控制>资源的获取以及控制</a></li><li><a href=#实现myls>实现myls</a></li></ol></li><li><a href=#进程基本知识>进程基本知识</a><ol><li><a href=#进程的终止-背诵-1>进程的终止 背诵</a></li><li><a href=#进程标识符pid>进程标识符pid</a></li><li><a href=#进程的产生>进程的产生</a></li><li><a href=#进程的消亡与释放资源>进程的消亡与释放资源</a></li><li><a href=#exec函数族的使用>exec()函数族的使用</a></li><li><a href=#用户权限和组权限>用户权限和组权限</a></li><li><a href=#观摩课解释器文件>观摩课：解释器文件</a></li><li><a href=#system>system()</a></li><li><a href=#进程会计>进程会计</a></li><li><a href=#进程时间>进程时间</a></li><li><a href=#守护进程>守护进程</a></li><li><a href=#系统日志>系统日志</a></li></ol></li><li><a href=#并发-信号>并发-信号</a><ol><li><a href=#信号的概念>信号的概念</a></li><li><a href=#signal>signal()</a></li><li><a href=#信号的不可靠>信号的不可靠</a></li><li><a href=#sig_atomic_t的局限性>sig_atomic_t的局限性</a></li><li><a href=#可重入函数>可重入函数</a></li><li><a href=#信号屏蔽字和pending集的处理>信号屏蔽字和Pending集的处理</a></li><li><a href=#信号的响应过程>信号的响应过程</a></li><li><a href=#信号常用函数>信号常用函数</a></li><li><a href=#sleep函数的局限性>sleep()函数的局限性</a></li><li><a href=#高精度计时器-setitimer>高精度计时器 setitimer()</a></li><li><a href=#信号集操作函数>信号集操作函数</a></li><li><a href=#sigsuspend与信号驱动程序>sigsuspend()与信号驱动程序</a></li><li><a href=#sigaction与signal所面对的问题>sigaction()与signal()所面对的问题</a></li><li><a href=#标准信号和实时信号的区别>标准信号和实时信号的区别</a></li></ol></li><li><a href=#并发-线程>并发-线程</a><ol><li><a href=#线程的概念>线程的概念</a></li><li><a href=#线程的创建>线程的创建</a></li><li><a href=#线程的终止>线程的终止</a></li><li><a href=#线程同步>线程同步</a></li><li><a href=#线程属性>线程属性</a></li><li><a href=#线程同步的属性>线程同步的属性</a></li><li><a href=#可重入>可重入</a></li><li><a href=#线程和信号的关系>线程和信号的关系</a></li><li><a href=#线程与fork>线程与fork</a></li><li><a href=#线程的创建-1>线程的创建</a></li><li><a href=#线程的终止-1>线程的终止</a></li><li><a href=#线程同步-1>线程同步</a></li><li><a href=#线程属性-1>线程属性</a></li><li><a href=#线程同步的属性-1>线程同步的属性</a></li><li><a href=#可重入-1>可重入</a></li><li><a href=#线程和信号的关系-1>线程和信号的关系</a></li><li><a href=#线程与fork-1>线程与fork</a></li></ol></li><li><a href=#进程间通信>进程间通信</a><ol><li><a href=#管道>管道</a></li><li><a href=#匿名管道>匿名管道</a></li><li><a href=#命名管道>命名管道</a></li><li><a href=#xsi>XSI</a><ol><li><a href=#消息队列>消息队列</a></li><li><a href=#共享内存段>共享内存段</a></li><li><a href=#信号量数组>信号量数组</a></li></ol></li></ol></li><li><a href=#高级io-非阻塞io>高级IO-非阻塞IO</a><ol><li><a href=#有限状态机编程思想fsm>有限状态机编程思想FSM</a></li><li><a href=#io多路转接>IO多路转接</a></li><li><a href=#其他读写函数>其他读写函数</a></li><li><a href=#存储映射io>存储映射IO</a></li><li><a href=#文件锁>文件锁</a></li></ol></li><li><a href=#网络编程>网络编程</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E7%AC%94%E8%AE%B0/>笔记</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/linux-%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B%E7%AC%94%E8%AE%B0/>Linux 系统编程笔记</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Dec 27, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>16 minute read</time></div></footer></div></header><section class=article-content><h1 id=c编程基础>C编程基础</h1><h2 id=基本注意事项>基本注意事项</h2><ol><li>头文件包含的重要性</li><li>以函数为单位进行程序编写</li><li>变量先定义再使用</li><li>return 0</li><li>多用空格和空行</li><li>大段函数注释可以通过#if 0 &mdash; #endif 进行注释</li><li>没有单位的数值在计算机中是没有意义的</li></ol><p><code>算法</code>： 解决问题的方法。（流程图、NS图、有限状态机FSM）<br><code>程序</code>： 用某种语言实现算法<br><code>进程</code>： 防止写越界，防止内存泄露</p><h2 id=数据类型>数据类型</h2><ol><li>所占字节数</li><li>float 类型</li><li>char型是否有符号</li><li>不同类型的0值： 0，‘0’， “0”， ‘\0’</li><li>数据类型与后序代码中所使用的输入输出要相匹配，防止自相矛盾</li></ol><h3 id=常量与变量>常量与变量</h3><p><code>常量</code>： 在程序执行过程中值不会发生变化的量<br>分类： 整型常量、实型常量、字符常量、字符串常量、标识常量</p><ul><li>整型常量： 1，123</li><li>实型常量： 3.14</li><li>字符常量： 由单引号引起来的单个的字符或转义字符</li><li>字符串常量： 由双引号引起来的一个或多个字符组成的序列<ul><li>特殊情况： 空串，“”，字符串末尾以&rsquo;\0&rsquo;结束，因此空串也会占据一个字节的存储空间</li></ul></li><li>标示常量： #define 定义的常量，预处理阶段，占用编译时间，GNU C 对宏进行了拓展，Linux中使用的就是GNU C</li></ul><p><code>变量</code>：用来保存一些特定内容，并在执行过程中值随时会发生变化的量</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[存储类型] 数据类型 标识符 = 值
+</span></span></code></pre></td></tr></table></div></div><p><code>标识符</code>：由字母、数字、下划线组成且不能以数字开头的一个标识序列<br><code>存储类型</code>： auto static register extern(说明型)</p><ul><li>auto: 默认、自动分配空间、自动回收空间</li><li>register： 寄存器类型， 建议型关键字，由gcc做最终决定<ul><li>只能用来定义局部变量，不能定义全局变量；</li><li>大小有限制，数据的大小不能超出当前寄存器的长度</li><li>寄存器没有地址，所以一个寄存器类型的变量无法打印地址查看或使用</li></ul></li><li>static： 静态型，自动初始化为零值或空值，并且其变量的值具有继承性</li><li>extern: 说明型，意味着不能改变被说明的变量的值或类型</li></ul><h3 id=变量的生命周期与作用范围>变量的生命周期与作用范围</h3><p>变量的生命周期本质上取决于其存储在进程地址空间中的哪个区域当中。对于<code>auto</code>和<code>register</code>类型的变量，在运行过程中分别存储在栈和寄存器中，其生存周期为函数调用开始到结束阶段。
+对于<code>static</code>类型和全局变量，其在程序运行过程中存储在程序段中，因此其生命周期为程序整个运行期间。</p><p>对于局部变量（auto\register\局部static）而言，其作用域为定义该变量的函数或复合语句内部<br>对于定义在函数外部的变量（外部static\全局变量）而言，其中<code>外部static</code>变量的作用域仅限于当前文件，无法被其他文件访问。<code>全局变量</code>的作用域为整个程序，如何需要在当前文件中访问其他文件定义的全局变量，需要使用<code>extern</code>关键字。</p><h2 id=运算符>运算符</h2><p><img src=https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20241230211112.png?imageSlim loading=lazy alt=img></p><h2 id=标准io>标准I/O</h2><p>区分标准I/O与系统调用I/O</p><ul><li>格式化输入输出scanf printf</li><li>字符输入输出 getchat putchar</li><li>字符串输入输出 gets puts</li></ul><h3 id=格式化输入输出>格式化输入输出</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>printf</span><span class=p>(</span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>format</span><span class=p>,</span> <span class=p>...);</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>scanf</span><span class=p>(</span><span class=k>const</span> <span class=kt>char</span> <span class=o>*</span><span class=kr>restrict</span> <span class=n>format</span><span class=p>,</span> <span class=p>...);</span>
+</span></span></code></pre></td></tr></table></div></div><p>format格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>% [修饰符] 格式字符
+</span></span></code></pre></td></tr></table></div></div><p>修饰符：<br><img src=https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20250101105411.png?imageSlim loading=lazy alt=modify></p><p>格式字符：<br><img src=https://imagebed-1300955178.cos.ap-beijing.myqcloud.com/20250101084954.png?imageSlim loading=lazy alt=format></p><p>scanf使用注意事项：</p><ol><li>在scanf中使用%s接受字符串是一个非常危险的操作，可能导致内存越界，最好使用专门的字符串接受函数</li><li>如果在循环中使用scanf函数，一定要对其返回值进行校验。例如</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>void</span> <span class=nf>func</span><span class=p>(</span><span class=kt>void</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nf>scanf</span><span class=p>(</span><span class=s>&#34;%d&#34;</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;%d</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果输出的内容与%d不匹配，那么程序就会进入死循环3. 抑制符的使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>* 如果连续调用两次scanf函数从终端读取内容，那么后一个scanf函数不能接收到正确的结果
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=缓冲区刷新机制>缓冲区刷新机制</h3><p>C语言中，当使用标准I/O时，会有一个缓冲区来暂时存储输入输出的内容来提高效率。
+行缓冲：在遇到\n时或者缓冲区已满时进行输出，终端使用行缓冲模式
+全缓冲：缓冲区满时进行输出，文件使用全缓冲模式
+标准错误流：标准错误流不缓冲</p><h2 id=流程控制>流程控制</h2><h2 id=数组>数组</h2><h2 id=指针>指针</h2><h2 id=构造类型>构造类型</h2><h3 id=struct内存对齐>struct内存对齐</h3><ol><li>成员的起始地址必须是对齐值的整数倍，对齐值通常是数据类型的大小</li><li>结构体的大小必须是最大对齐值的整数倍，否则需要在结构体末尾进行填充</li><li>成员的排列顺序影响结构体的大小</li></ol><h3 id=union的应用场景>union的应用场景</h3><ol><li>节省内存，当多个数据类型<code>不会</code>同时使用时，可以使用Union节省内存</li><li>类型转换，通过Union可以实现相同位模式下的不同数据类型的解释</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>union</span> <span class=n>convert</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>j</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>union</span> <span class=n>convert</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>a</span><span class=p>.</span><span class=n>i</span> <span class=o>=</span> <span class=mh>0xffffffff</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm>     * a.i = -1
+</span></span></span><span class=line><span class=cl><span class=cm>     * a.j = 4294967295
+</span></span></span><span class=line><span class=cl><span class=cm>     */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;a.i = %d</span><span class=se>\n</span><span class=s>a.j = %u</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>a</span><span class=p>.</span><span class=n>i</span><span class=p>,</span> <span class=n>a</span><span class=p>.</span><span class=n>j</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>硬件编程，在嵌入式开发中Union可以用来访问寄存器的不同部分</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>union</span> <span class=n>Register</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=kt>unsigned</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=k>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>byte1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>byte2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>byte3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=kt>unsigned</span> <span class=kt>char</span> <span class=n>byte4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=n>bytes</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>union</span> <span class=n>Register</span> <span class=n>r</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>r</span><span class=p>.</span><span class=n>i</span> <span class=o>=</span> <span class=mh>0x12345678</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>     * byte1 = 78
+</span></span></span><span class=line><span class=cl><span class=cm>     * byte2 = 56
+</span></span></span><span class=line><span class=cl><span class=cm>     * byte3 = 34
+</span></span></span><span class=line><span class=cl><span class=cm>     * byte4 = 12
+</span></span></span><span class=line><span class=cl><span class=cm>     * 说明当前机器采用小端模式
+</span></span></span><span class=line><span class=cl><span class=cm>     * */</span>
+</span></span><span class=line><span class=cl>	<span class=nf>printf</span><span class=p>(</span><span class=s>&#34;byte1 = %x</span><span class=se>\n</span><span class=s>byte2 = %x</span><span class=se>\n</span><span class=s>byte3 = %x</span><span class=se>\n</span><span class=s>byte4 = %x</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	       <span class=n>r</span><span class=p>.</span><span class=n>bytes</span><span class=p>.</span><span class=n>byte1</span><span class=p>,</span> <span class=n>r</span><span class=p>.</span><span class=n>bytes</span><span class=p>.</span><span class=n>byte2</span><span class=p>,</span> <span class=n>r</span><span class=p>.</span><span class=n>bytes</span><span class=p>.</span><span class=n>byte3</span><span class=p>,</span> <span class=n>r</span><span class=p>.</span><span class=n>bytes</span><span class=p>.</span><span class=n>byte4</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=函数>函数</h2><h1 id=unix系统编程>Unix系统编程</h1><h2 id=系统调用io>系统调用IO</h2><p>文件IO=系统调用IO
+文件描述符是在文件IO中贯穿始终的类型</p><h3 id=文件操作符的概念>文件操作符的概念</h3><p>整型数，数组下标，文件描述符优先使用当前可用范围内最小的</p><h3 id=文件io操作readwriteopencloselseek>文件IO操作，read，write，open，close，lseek</h3><h3 id=open系统调用的flags>open系统调用的flags</h3><p>可以在 flags 中进行按位或的零个或多个文件创建标志和文件状态标志。文件创建标志包括 O_CLOEXEC、O_CREAT、O_DIRECTORY、O_EXCL、O_NOCTTY、O_NOFOLLOW、O_TMPFILE 和 O_TRUNC。文件状态标志是下面列出的所有其他标志。这两组标志之间的区别在于，文件创建标志会影响打开操作本身的语义，而文件状态标志会影响后续 I/O 操作的语义。</p><h3 id=文件io与标准io的区别>文件IO与标准IO的区别</h3><p>关键区别是标准IO提供了一个缓冲区，可以减少系统调用次数，减小模式转换的开销
+标准IO的吞吐量大，文件IO的响应快</p><p>标准IO与文件IO不可混用</p><h3 id=io的效率问题>IO的效率问题</h3><h3 id=文件共享>文件共享</h3><h3 id=原子操作>原子操作</h3><h3 id=程序中的重定向-dup-dup2>程序中的重定向 dup dup2</h3><p><code>dup</code> 和 <code>dup2</code> 是 Unix/Linux 系统中用于 <strong>复制文件描述符</strong> 的函数。它们允许程序创建新的文件描述符，指向与原始文件描述符相同的文件表项，从而共享同一个文件偏移量、访问模式等。</p><div class=table-wrapper><table><thead><tr><th>特性</th><th><code>dup</code></th><th><code>dup2</code></th></tr></thead><tbody><tr><td>参数数量</td><td>一个（<code>oldfd</code>）</td><td>两个（<code>oldfd</code>, <code>newfd</code>）</td></tr><tr><td>可指定新描述符</td><td>否，返回当前最小可用描述符</td><td>是，由 <code>newfd</code> 指定</td></tr><tr><td>自动关闭新描述符</td><td>不适用</td><td>是（如果 <code>newfd</code> 已打开）</td></tr><tr><td>功能</td><td>复制文件描述符</td><td>重定向文件描述符</td></tr></tbody></table></div><p>这两个函数是文件描述符操作的基础，在系统编程中非常常用，例如实现 I/O 重定向或构建更复杂的流处理机制。</p><h3 id=同步-sync-fsync-fdatasync>同步 sync fsync fdatasync</h3><h3 id=fcntl-ioctl>fcntl() ioctl()</h3><h3 id=devfd-目录>/dev/fd/ 目录</h3><h2 id=目录和文件>目录和文件</h2><h3 id=获取文件属性>获取文件属性</h3><p>stat</p><h3 id=文件访问权限>文件访问权限</h3><p>st_mode 是一个16位的位图</p><h3 id=umask-防止产生权限过松的文件>umask: 防止产生权限过松的文件</h3><h3 id=文件权限的修改>文件权限的修改</h3><p>chmod
+fchmod</p><h3 id=粘住位>粘住位</h3><p>t位，现在已经不再常用，目的是让某一个二进制文件在执行完成后留在内存中方便下一次加载</p><h3 id=文件系统fat和ufs>文件系统：FAT和UFS</h3><h3 id=硬链接符号链接>硬链接、符号链接</h3><p>link
+unlink</p><p>rename
+remove</p><p>remove() deletes a name from the filesystem. It calls unlink(2) for files, and rmdir(2) for directories.</p><p>硬链接与目录项是同义词，硬链接建立有限制：不能够跨分区建立，不能够给目录建立；符号链接可以</p><h3 id=utime-更改文件最后读的时间和最后修改的时间>utime: 更改文件最后读的时间和最后修改的时间</h3><h3 id=目录的创建和销毁>目录的创建和销毁</h3><p>mkdir
+rmdir</p><h3 id=更改当前工作路径>更改当前工作路径</h3><p>chdir
+fchdir
+getcwd</p><h3 id=分析目录读取目录内容>分析目录/读取目录内容</h3><p>glob
+opendir
+readdir
+rewinddir
+seekdir
+closedir</p><h3 id=系统数据文件和信息>系统数据文件和信息</h3><p>和进程环境相关，和要做的ls练习相关</p><h3 id=etcpasswd>/etc/passwd</h3><pre><code>getpwuid() 根据uid或name来查询
+getpwnam()
+</code></pre><h3 id=etcgroup>/etc/group</h3><pre><code>getgrgid()
+getgrgrnam()
+</code></pre><h3 id=etcshadow>/etc/shadow</h3><pre><code>getspnam() 根据name返回shadow文件中的一行
+crypt() 加密
+getpass() 关闭终端回显，从终端接收密码
+</code></pre><h3 id=时间戳>时间戳</h3><pre><code>各种时间的转换函数，可以参考unix系统编程里面的图示
+time_t char * struct tm
+time()
+gmtime()
+localtime()
+mktime()
+strftime() 格式化的时间和日期
+</code></pre><h2 id=进程环境>进程环境</h2><h3 id=main函数>main函数</h3><h3 id=进程的终止-背诵>进程的终止 背诵</h3><pre><code>正常终止
+    从main函数返回
+    调用exit 返回值从-128到127
+        在进程正常终止时会调用atexit注册的函数
+    调用_exit或_Exit
+        exit是库函数，_exit是系统调用
+    最后一个线程从其启动例程返回
+    最后一个线程调用pthread_exit
+异常终止
+    调用abort函数，发送一个杀死进程的信号
+    接到一个信号并终止
+    最后一个线程对其取消请求做出响应
+</code></pre><h3 id=命令行参数的分析>命令行参数的分析</h3><pre><code>getopt()
+getopt_long()
+</code></pre><h3 id=环境变量>环境变量</h3><pre><code>程序员和用户的约定
+KEY = VALUE
+getenv()
+setenv() 改变或添加一个环境变量
+unsetenv() 删除一个环境变量
+putenv() 不好用
+</code></pre><h3 id=c程序的存储空间布局>C程序的存储空间布局</h3><pre><code>ps axf
+pmap
+</code></pre><h3 id=库>库</h3><pre><code>动态库
+静态库
+共享库/手工装载库
+    dlopen()
+    dlclose()
+    dlerror()
+    dlsym()
+</code></pre><h3 id=函数跳转>函数跳转</h3><pre><code>setjmp() 安全的跨函数跳转，区别于goto
+longjmp()
+有一种情况不能跳，以后学到信号再来补充
+</code></pre><h3 id=资源的获取以及控制>资源的获取以及控制</h3><pre><code>getrlimit()
+setrlimit()
+</code></pre><h3 id=实现myls>实现myls</h3><p>支持ls -a -l -n -i /dirorfile
+inode节点号 文件类型文件权限 用户 组 大小 时间 文件名</p><h2 id=进程基本知识>进程基本知识</h2><h3 id=进程的终止-背诵-1>进程的终止 背诵</h3><pre><code>正常终止
+    从main函数返回
+    调用exit 返回值从-128到127
+        在进程正常终止时会调用atexit注册的函数
+    调用_exit或_Exit
+        exit是库函数，_exit是系统调用
+    最后一个线程从其启动例程返回
+    最后一个线程调用pthread_exit
+异常终止
+    调用abort函数，发送一个杀死进程的信号
+    接到一个信号并终止
+    最后一个线程对其取消请求做出响应
+</code></pre><h3 id=进程标识符pid>进程标识符pid</h3><pre><code>pid_t
+命令ps
+进程号是顺次向下增长
+getpid()
+getppid()
+</code></pre><h3 id=进程的产生>进程的产生</h3><pre><code>fork()
+    fork后父子进程的区别
+        frok的返回值不同
+        pid不同，ppid不同
+        未决信号和文件锁不继承，资源利用量清0
+    init进程：是所有进程的祖先进程
+    调度器的策略决定哪个进程先运行
+    在fork之前要调用fflush刷新缓冲区
+vfork() 基本废弃
+</code></pre><h3 id=进程的消亡与释放资源>进程的消亡与释放资源</h3><pre><code>wait()
+waitpid()
+waitid()
+</code></pre><h3 id=exec函数族的使用>exec()函数族的使用</h3><pre><code>execl()
+execlp()
+execle()
+execv()
+execvp()
+</code></pre><h3 id=用户权限和组权限>用户权限和组权限</h3><pre><code>u+s
+g+s
+    real
+        用户的实际身份标识，代表运行进程的实际用户
+        与用户登录系统时的身份一致，通常由登录会话分配
+    effective
+        进程实际使用的权限标识，用于决定进程运行时的权限级别
+    save
+        不一定存在
+    S_ISUID     04000   set-user-ID bit (see execve(2))
+        如果设置了这个位，进程在执行该文件时将获得文件所有者的权限而不是进程所有者的权限
+    S_ISGID     02000   set-group-ID bit (see below)
+getuid()
+geteuid()
+getgid()
+getegid()
+setuid() set effictive uid sudo的底层原理
+setgid()
+setreuid()
+setregid()
+seteuid()
+setegid()
+</code></pre><h3 id=观摩课解释器文件>观摩课：解释器文件</h3><pre><code>#!/bin/解释器
+</code></pre><h3 id=system>system()</h3><pre><code>相当于 execl(&quot;/bin/sh&quot;, &quot;sh&quot;, &quot;-c&quot;, command, (char *) NULL);
+</code></pre><h3 id=进程会计>进程会计</h3><pre><code>acct() 方言
+当进程结束时会在指定的文件中写入进程信息
+</code></pre><h3 id=进程时间>进程时间</h3><pre><code>times()
+</code></pre><h3 id=守护进程>守护进程</h3><pre><code>会话session，sid
+终端
+    一个会话绑定一个终端
+前台进程组和后台进程组
+    前台进程组最多只能有一个
+    前台进程组可以接收来自终端的输入
+setsid()
+    使进程脱离控制终端
+getpgrp()
+getpgid()
+单实例守护进程: 锁文件/var/run/name.pid
+</code></pre><h3 id=系统日志>系统日志</h3><pre><code>syslogd系统日志
+openlog()
+syslog()
+closelog()
+</code></pre><h2 id=并发-信号>并发-信号</h2><p>同步：
+异步：事件什么时候到来不知道，事件会产生什么样的结果不知道
+异步事件的处理：查询、通知</p><h3 id=信号的概念>信号的概念</h3><p>信号是软件层面的中断
+信号的响应依赖于中断 *信号会打断阻塞的系统调用 open sleep write read accept poll&mldr;</p><h3 id=signal>signal()</h3><h3 id=信号的不可靠>信号的不可靠</h3><p>信号的行为不可靠</p><h3 id=sig_atomic_t的局限性>sig_atomic_t的局限性</h3><p>虽然<code>sig_atomic_t</code>保证了单次读写操作的安全性，但它不能保证多步操作的原子性</p><ol><li>count++不是原子操作<ul><li>读取count</li><li>递增count</li><li>写入count</li></ul></li></ol><h3 id=可重入函数>可重入函数</h3><p>信号处理函数需要使用<a class=link href=./reentrant_function.md>可重入函数</a>
+所有的系统调用都是可重入的
+一部分库函数是可重入的</p><h3 id=信号屏蔽字和pending集的处理>信号屏蔽字和Pending集的处理</h3><p>未决集和阻塞集 pending mask, 内核为每个进程维护，位图，32位
+mask是掩码，默认全为1，pending默认全为0
+mask & pending</p><h3 id=信号的响应过程>信号的响应过程</h3><p>信号是在程序从内核态到用户态转化之前进行一次检查，mask & pending，来判断是否有待处理信号
+如果存在待处理信号，内核将该信号的mask位和pending位置零（目的是保证handler在执行过程中不会因为同样的信号被打断），
+然后将原本程序上下文中保存的返回地址，替换为信号Handler的地址，信号处理函数执行完成之后返回，
+将之前置零的mask位置1，重新进行mask & pending
+因此
+信号处理会有延迟
+思考
+如何忽略掉一个信号
+标准信号为什么会丢失
+标准信号的响应没有严格的顺序
+不能从信号处理函数中随意的往外跳（setjump\longjmp),使用sigsetjmp和siglongjmp替代</p><h3 id=信号常用函数>信号常用函数</h3><ul><li>kill()
+向进程或进程组发信号，也可以用来检测某个进程是否存在，具体看手册</li><li>arise()
+给当前进程或线程发送一个信号</li><li>alarm()</li><li>pause()
+等待一个信号</li><li>abort()
+<code>abort()</code> 函数首先会解除对 <code>SIGABRT</code> 信号的阻塞，然后向调用进程发送该信号（类似于调用 <code>raise(3)</code>）。这将导致进程异常终止，除非 <code>SIGABRT</code> 信号被捕获并且信号处理程序没有返回（参见 <code>longjmp(3)</code>）。</li></ul><p>如果 <code>SIGABRT</code> 信号被忽略，或者被一个会返回的信号处理程序捕获，<code>abort()</code> 函数仍然会终止进程。它会通过恢复 <code>SIGABRT</code> 信号的默认处理方式，然后再次发送该信号来实现这一点。</p><p>与其他异常终止的情况一样，使用 <code>atexit(3)</code> 和 <code>on_exit(3)</code> 注册的函数不会被调用。</p><ul><li>system()</li></ul><h3 id=sleep函数的局限性>sleep()函数的局限性</h3><p>可以把sleep当作alarm和pause的封装（但Linux不是这样实现的），pause会被任意信号打断，因此在sleep过程中如果有其他信号到来，会打断当前
+阻塞的系统调用</p><p>可以使用<code>nanosleep</code>或<code>usleep</code>替代。sleep不具有移植性</p><h3 id=高精度计时器-setitimer>高精度计时器 setitimer()</h3><p><a class=link href=./%e9%ab%98%e7%b2%be%e5%ba%a6%e8%ae%a1%e6%97%b6%e5%99%a8.md>高精度计时器</a>，提供毫秒级精度响应</p><h3 id=信号集操作函数>信号集操作函数</h3><ul><li>sigemptyset()</li><li>sigfillset()</li><li>sigaddset()</li><li>sigdelset()</li><li>sigismember()</li><li>sigprocmask()
+将某些信号添加到屏蔽字Mask中，阻止或解除阻止</li><li>sigpending()
+似乎不好用</li></ul><h3 id=sigsuspend与信号驱动程序>sigsuspend()与信号驱动程序</h3><p>sigsuspend与pause类似都是等待一个信号的到来，但是</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>for</span><span class=p>(;;)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 阻塞某些信号
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>sigprocmask</span><span class=p>(</span><span class=n>SIG_BLOCK</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>set</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>oset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>dosomething</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 恢复之前的mask
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>sigprocmask</span><span class=p>(</span><span class=n>SIG_SETMASK</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>oset</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 等待一个信号到来之后再继续循环，所谓信号驱动
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>pause</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>观察以上程序，会发现在dosomething过程中发送一个信号，信号并没有打在pause上，而是在sigprocmask 和 pause之间溜走到了信号处理程序上，究其根本是因为sigprocmask和pause不原子
+<strong>sigsuspend</strong>就是为了解决这个问题而存在的</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=k>for</span><span class=p>(;;)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 阻塞某些信号
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>sigprocmask</span><span class=p>(</span><span class=n>SIG_BLOCK</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>set</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>oset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>dosomething</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 恢复之前的mask并阻塞并等待一个信号到来
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nf>sigsuspend</span><span class=p>(</span><span class=o>&amp;</span><span class=n>oset</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=sigaction与signal所面对的问题>sigaction()与signal()所面对的问题</h3><ul><li>sigaction可以避免信号处理函数嵌套导致的重入问题<a class=link href=./mydaemon_normalexit.c>例子</a></li><li>sigaction可以获取到有关信号的更加详细的信息，从而可以做进一步的判断。可以看token_bucket_sigaction</li></ul><h3 id=标准信号和实时信号的区别>标准信号和实时信号的区别</h3><ul><li>实时信号不会丢失，有一个实时信号待处理队列
+队列长度有限制，可以通过<code>ulimit -a</code>查看，<code>pending signals</code></li></ul><h2 id=并发-线程>并发-线程</h2><h3 id=线程的概念>线程的概念</h3><p>一个正在运行的函数</p><p>线程间通信比进程间通信要简单</p><p>线程是先标准化再实现。一个新的库发布出来默认要求必须支持线程并发</p><p>线程有多个标准，POSIX标准，是标准而非实现</p><p>pthread_t: POSIX标准下的线程标识，但是这个类型到底是什么取决于具体实现</p><p>进程就是容器，用来承载线程</p><ul><li><p><code>pthread_equal()</code>
+比较两个线程id是否相同</p></li><li><p><code>pthread_self()</code>
+返回当前线程的线程标识</p></li></ul><h3 id=线程的创建>线程的创建</h3><ul><li><p><code>pthread_create</code>
+创建一个新线程</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_create</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=o>*</span><span class=kr>thread</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=n>attr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>start_routine</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>  attr: 线程属性，NULL为默认属性
+</span></span></span><span class=line><span class=cl><span class=cm>  start_routine: 线程函数的入口点
+</span></span></span><span class=line><span class=cl><span class=cm>  arg: 传递给start_routine的参数
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></li></ul><h3 id=线程的终止>线程的终止</h3><ul><li><p>线程的三种终止方式</p><ul><li>线程从启动例程返回，返回值就是线程的退出码</li><li>线程可以被同一进程中的其他线程取消</li><li>线程调用<code>pthread_exit()</code>函数，该函数会进行线程栈的清理</li></ul></li><li><p>收尸
+<code>pthread_join()</code>，等待一个指定的线程结束</p></li><li><p>栈清理
+<code>pthread_cleanup_push()</code> <code>pthread_cleanup_pop()</code>。 两个函数必须成对出现，原因很独特</p></li><li><p>线程的取消选项</p><ul><li>线程取消：<code>pthread_cancel()</code></li><li>取消有两种状态，允许和不允许。可以通过<code>pthread_setcancelstate()</code>指定</li><li>允许取消分为<code>异步cancel</code>和<code>推迟cancel</code>（默认）<ul><li>异步取消简单直接</li><li><code>pthread_setcanceltype()</code> 设置取消方式</li><li>推迟cancel推迟到取消点，<code>取消点</code>由POSIX定义，是可能引发阻塞的系统调用</li><li><code>pthread_testcancel()</code>设置一个取消点</li></ul></li></ul></li></ul><h3 id=线程同步>线程同步</h3><ul><li><p>互斥量</p><ul><li><code>pthread_mutex_t;</code></li><li><code>pthread_mutex_init()</code></li><li><code>pthread_mutex_destory()</code></li><li><code>pthread_mutex_lock()</code></li><li><code>pthread_mutex_trylock()</code></li><li><code>pthread_mutex_trylock()</code></li><li><code>pthread_mutex_unlock()</code></li><li><code>pthread_once()</code> 用于加载一个模块仅一次</li></ul></li><li><p><a class=link href=./%e6%9d%a1%e4%bb%b6%e5%8f%98%e9%87%8f.md>条件变量</a></p><ul><li><code>pthread_cond_t</code></li><li><code>pthread_cond_init()</code></li><li><code>pthread_cond_destory()</code></li><li><code>pthread_cond_signal()</code></li><li><code>pthread_cond_broadcast()</code></li><li><code>pthread_cond_wait()</code></li><li><code>pthread_cond_timewait()</code></li></ul></li><li><p>信号量</p></li><li><p>读写锁</p></li></ul><h3 id=线程属性>线程属性</h3><p>pthread_attr函数族</p><h3 id=线程同步的属性>线程同步的属性</h3><ul><li><p>互斥量的属性
+pthread_mutexattr函数族</p><ul><li>pthread_mutexattr_init()</li><li>pthread_mutex_attr_destory()</li><li>pthread_mutexattr_setpshared()</li><li>pthread_mutexattr_getpshared()</li><li>clone()</li><li>pthread_mutexattr_gettype()</li><li>pthread_mutexattr_settype()</li></ul></li><li><p>条件变量</p><ul><li>pthread_condattr_init()</li><li>&mldr;</li></ul></li></ul><h3 id=可重入>可重入</h3><p>多线程中的IO处理库函数默认已经支持并发，如果不支持并发会在名字中体现出来：在函数后加一个unlocked后缀</p><h3 id=线程和信号的关系>线程和信号的关系</h3><p>实际上，每个线程分别拥有一个mask和pending，进程用有一个pending，在从内核返回用户态反而过程中，扎回哪个线程，哪个线程负责处理所属进程的pending和本线程的penging，也就是要按位与两次</p><ul><li>pthread_sigmask()</li><li>sigwait()</li><li>pthread_kill()</li></ul><h3 id=线程与fork>线程与fork</h3><p>POSIX原语规定新的进程只包含调用它的那个线程# 线程的概念</p><p>一个正在运行的函数</p><p>线程间通信比进程间通信要简单</p><p>线程是先标准化再实现。一个新的库发布出来默认要求必须支持线程并发</p><p>线程有多个标准，POSIX标准，是标准而非实现</p><p>pthread_t: POSIX标准下的线程标识，但是这个类型到底是什么取决于具体实现</p><p>进程就是容器，用来承载线程</p><ul><li><p><code>pthread_equal()</code>
+比较两个线程id是否相同</p></li><li><p><code>pthread_self()</code>
+返回当前线程的线程标识</p></li></ul><h3 id=线程的创建-1>线程的创建</h3><ul><li><p><code>pthread_create</code>
+创建一个新线程</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=kt>int</span> <span class=nf>pthread_create</span><span class=p>(</span><span class=kt>pthread_t</span> <span class=o>*</span><span class=kr>thread</span><span class=p>,</span> <span class=k>const</span> <span class=kt>pthread_attr_t</span> <span class=o>*</span><span class=n>attr</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                  <span class=kt>void</span> <span class=o>*</span><span class=p>(</span><span class=o>*</span><span class=n>start_routine</span><span class=p>)</span> <span class=p>(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=cm>/*
+</span></span></span><span class=line><span class=cl><span class=cm>  attr: 线程属性，NULL为默认属性
+</span></span></span><span class=line><span class=cl><span class=cm>  start_routine: 线程函数的入口点
+</span></span></span><span class=line><span class=cl><span class=cm>  arg: 传递给start_routine的参数
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></td></tr></table></div></div></li></ul><h3 id=线程的终止-1>线程的终止</h3><ul><li><p>线程的三种终止方式</p><ul><li>线程从启动例程返回，返回值就是线程的退出码</li><li>线程可以被同一进程中的其他线程取消</li><li>线程调用<code>pthread_exit()</code>函数，该函数会进行线程栈的清理</li></ul></li><li><p>收尸
+<code>pthread_join()</code>，等待一个指定的线程结束</p></li><li><p>栈清理
+<code>pthread_cleanup_push()</code> <code>pthread_cleanup_pop()</code>。 两个函数必须成对出现，原因很独特</p></li><li><p>线程的取消选项</p><ul><li>线程取消：<code>pthread_cancel()</code></li><li>取消有两种状态，允许和不允许。可以通过<code>pthread_setcancelstate()</code>指定</li><li>允许取消分为<code>异步cancel</code>和<code>推迟cancel</code>（默认）<ul><li>异步取消简单直接</li><li><code>pthread_setcanceltype()</code> 设置取消方式</li><li>推迟cancel推迟到取消点，<code>取消点</code>由POSIX定义，是可能引发阻塞的系统调用</li><li><code>pthread_testcancel()</code>设置一个取消点</li></ul></li></ul></li></ul><h3 id=线程同步-1>线程同步</h3><ul><li><p>互斥量</p><ul><li><code>pthread_mutex_t;</code></li><li><code>pthread_mutex_init()</code></li><li><code>pthread_mutex_destory()</code></li><li><code>pthread_mutex_lock()</code></li><li><code>pthread_mutex_trylock()</code></li><li><code>pthread_mutex_trylock()</code></li><li><code>pthread_mutex_unlock()</code></li><li><code>pthread_once()</code> 用于加载一个模块仅一次</li></ul></li><li><p><a class=link href=./%e6%9d%a1%e4%bb%b6%e5%8f%98%e9%87%8f.md>条件变量</a></p><ul><li><code>pthread_cond_t</code></li><li><code>pthread_cond_init()</code></li><li><code>pthread_cond_destory()</code></li><li><code>pthread_cond_signal()</code></li><li><code>pthread_cond_broadcast()</code></li><li><code>pthread_cond_wait()</code></li><li><code>pthread_cond_timewait()</code></li></ul></li><li><p>信号量</p></li><li><p>读写锁</p></li></ul><h3 id=线程属性-1>线程属性</h3><p>pthread_attr函数族</p><h3 id=线程同步的属性-1>线程同步的属性</h3><ul><li><p>互斥量的属性
+pthread_mutexattr函数族</p><ul><li>pthread_mutexattr_init()</li><li>pthread_mutex_attr_destory()</li><li>pthread_mutexattr_setpshared()</li><li>pthread_mutexattr_getpshared()</li><li>clone()</li><li>pthread_mutexattr_gettype()</li><li>pthread_mutexattr_settype()</li></ul></li><li><p>条件变量</p><ul><li>pthread_condattr_init()</li><li>&mldr;</li></ul></li></ul><h3 id=可重入-1>可重入</h3><p>多线程中的IO处理库函数默认已经支持并发，如果不支持并发会在名字中体现出来：在函数后加一个unlocked后缀</p><h3 id=线程和信号的关系-1>线程和信号的关系</h3><p>实际上，每个线程分别拥有一个mask和pending，进程用有一个pending，在从内核返回用户态反而过程中，扎回哪个线程，哪个线程负责处理所属进程的pending和本线程的penging，也就是要按位与两次</p><ul><li>pthread_sigmask()</li><li>sigwait()</li><li>pthread_kill()</li></ul><h3 id=线程与fork-1>线程与fork</h3><p>POSIX原语规定新的进程只包含调用它的那个线程</p><h2 id=进程间通信>进程间通信</h2><h3 id=管道>管道</h3><p>内核提供、单工、自同步机制
+非常灵活简洁，使用广泛</p><h3 id=匿名管道>匿名管道</h3><p>具有亲缘关系的进程间通信</p><ul><li><code>pipe()</code></li></ul><h3 id=命名管道>命名管道</h3><ul><li><code>mkfifo()</code></li></ul><h3 id=xsi>XSI</h3><blockquote><p><code>ipcs</code>命令可以查看一些信息,关系system V资源</p></blockquote><p>可以用于有亲缘关系和没有亲缘关系的进程间通信</p><h4 id=消息队列>消息队列</h4><h4 id=共享内存段>共享内存段</h4><ul><li><code>shmget()</code></li><li><code>shmat()</code></li><li><code>shmctl()</code></li></ul><h4 id=信号量数组>信号量数组</h4><p>进程的同步与互斥机制，结合POSIX线程提供的互斥量和条件变量来理解</p><ul><li><code>semget()</code></li><li><code>semop()</code></li><li><code>semctl()</code></li></ul><h2 id=高级io-非阻塞io>高级IO-非阻塞IO</h2><p>NONBLOCK选项，如果读写失败会返回EAGAIN，不会阻塞等待</p><h3 id=有限状态机编程思想fsm>有限状态机编程思想FSM</h3><p>参考mycopy_fsm下的实现，简单来说就是使用状态来驱动程序运行，依赖实现定义好的流程图，适合处理非结构化复杂程序，符合人类直觉</p><h3 id=io多路转接>IO多路转接</h3><p>实现文件描述符的监视</p><ul><li>select()
+移植性好，古老</li><li>poll()
+和select的思路完全不一样，select以事件为单位组织文件描述符，poll以文件描述符为单位组织事件
+可移植</li><li>epoll()
+Linux方言，和poll思路一致，企图简化用户维护内容</li></ul><h3 id=其他读写函数>其他读写函数</h3><ul><li><code>readv()</code></li><li><code>writev()</code>
+向多个地址读写数据</li></ul><h3 id=存储映射io>存储映射IO</h3><p>把某个文件当中的内容映射到进程空间当中</p><ul><li><code>mmap()</code></li><li><code>munmap()</code></li></ul><p>匿名映射的情况下，mmap和munmap可以替代malloc和free</p><h3 id=文件锁>文件锁</h3><ul><li>fcntl()</li><li>lockf()</li><li>fclock()</li></ul><p>给文件加锁是反映在inode层面而不是结构体层面
+如果不同的文件描述符指向同一个文件，向一个文件描述符加锁，另一个close会导致<strong>意外解锁</strong></p><h2 id=网络编程>网络编程</h2><p>跨主机的传输要注意的问题</p><ul><li>字节序问题</li><li>结构体对齐问题，指定不对齐</li><li>类型长度问题，显示指定类型长度。例如uint32_t</li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/linux/>Linux</a>
+<a href=/tags/%E7%B3%BB%E7%BB%9F%E7%BC%96%E7%A8%8B/>系统编程</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><script src=https://utteranc.es/client.js repo=ryan1iu/ryan1iu issue-term=pathname label=Comment crossorigin=anonymous async></script><style>.utterances{max-width:unset}</style><script>let utterancesLoaded=!1;function setUtterancesTheme(e){let t=document.querySelector(".utterances iframe");t&&t.contentWindow.postMessage({type:"set-theme",theme:`github-${e}`},"https://utteranc.es")}addEventListener("message",e=>{if(e.origin!=="https://utteranc.es")return;utterancesLoaded=!0,setUtterancesTheme(document.documentElement.dataset.scheme)}),window.addEventListener("onColorSchemeChange",e=>{if(!utterancesLoaded)return;setUtterancesTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2024 -
+2025 孤岛</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
