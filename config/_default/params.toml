@@ -77,7 +77,7 @@ enabled = true
 
 ## Comments
 [comments]
-enabled = false
+enabled = true
 provider = "utterances"
 
 [comments.disqusjs]
